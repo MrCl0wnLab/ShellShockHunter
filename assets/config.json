@@ -1,6 +1,6 @@
 {
     "config": {
-        "threads": 10,
+        "threads": 20,
         "path": {
             "path_output": "output/",
             "path_wordlist": "wordlist/",

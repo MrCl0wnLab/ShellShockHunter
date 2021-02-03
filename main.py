@@ -9,7 +9,7 @@ __email__ = "mrcl0wnlab@gmail.com"
 __git__ = "https://github.com/MrCl0wnLab"
 __twitter__ = "https://twitter.com/MrCl0wnLab"
 
-
+from modules.debug_shock import DebugShock
 import re
 import ssl
 import time
@@ -24,12 +24,11 @@ urllib3.disable_warnings(InsecureRequestWarning)
 from modules.file_shock import FileLocal
 from modules.request_shock import RequestShock
 from modules.thread_shock import ThreadShock
-import modules.color_shock as  OBJ_ColorShock
-import modules.banner_shock as  OBJ_Banner
+from modules.color_shock import  ColorShock
+from modules.banner_shock import  BannerShock
 
-def cs(_color_str):
-    color_ = OBJ_ColorShock.color
-    return color_.get(_color_str)
+def cs(_color_str:str):
+    return OBJ_ColorShock.get(_color_str)
 
 def grep_uid(_html:str):
     if _html:
@@ -37,7 +36,7 @@ def grep_uid(_html:str):
 
 def banner():
     print(cs('orange'),
-    OBJ_Banner.banner,
+    OBJ_Banner,
     cs('end'))
 
 def ipRange(_start_ip, _end_ip):
@@ -201,14 +200,20 @@ def exec_command_shell(_target:str):
             pass
 
 if __name__ == '__main__':
-
+    
     OBJ_FileLocal = FileLocal()
     OBJ_ThreadShock = ThreadShock()
     OBJ_RequestShock = RequestShock()
+    OBJ_ColorShock = dict(ColorShock())
+    OBJ_Banner = BannerShock()
+    OBJ_Debug = DebugShock()
 
+
+   
     ASSETS_STR = 'assets/'
     CONFIG_JSON = load_json(ASSETS_STR+'config.json')
 
+    CONFIG_PATH_WORDLIST = CONFIG_JSON['config']['path']['path_wordlist']
     CONFIG_FILE_EXPLOIT = CONFIG_JSON['config']['files_assets']['exploits']
     CONFIG_THREAD = int(CONFIG_JSON['config']['threads'])
 
@@ -219,34 +224,37 @@ if __name__ == '__main__':
     SHELLSHOCK_EXPLOIT_LIST =  load_json(CONFIG_FILE_EXPLOIT)
     HEADER_COMMAND_DICT = ['DEFAULT',SHELLSHOCK_EXPLOIT_LIST.get('DEFAULT')]
 
-    FIRULA_EXEC = '[ EXEC ]'
-    FIRULA_INF = '[ INFO ]'
-    FIRULA_OK = '[ VULN ]'
-    FIRULA_ERR = '[ ERROR ]'
+    FIRULA_EXEC = '[ EXC ]'
+    FIRULA_INF = '[ INF ]'
+    FIRULA_OK = '[ VUN ]'
+    FIRULA_ERR = '[ ERR ]'
 
     parser = argparse.ArgumentParser(
         prog='tool', 
-        formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=20)
+        formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=40)
     )
     
     banner()
 
-    parser.add_argument('--file', help='File targets',metavar='<ips.txt>',  required=False)
-    parser.add_argument('--range', help='Range IP Ex: 192.168.15.1,192.168.15.100',  metavar='<ip-start>,<ip-end>', required=False)
-    parser.add_argument('--cmd-cgi', help='Command: uname -a',default=None, metavar='<command shell>', required=False)
+    parser.add_argument('--file', help='Input your target host lists',metavar='<ips.txt>',  required=False)
+    parser.add_argument('--range', help='Set range IP Eg.: 192.168.15.1,192.168.15.100',  metavar='<ip-start>,<ip-end>', required=False)
+    parser.add_argument('--cmd-cgi', help='Define shell command that will be executed in the payload ',default=None, metavar='<command shell>', required=False)
     parser.add_argument('--exec-vuln', help='Executing commands on vulnerable targets',default=None, metavar='<command shell>', required=False)
-    parser.add_argument('--thread','-t', help='Eg. 20',metavar='<10>', default=CONFIG_THREAD, required=False)
-    parser.add_argument('--check', help='Checker vuln',action='store_true', default=False)
-    parser.add_argument('--ssl', help='Set protocol https',action='store_true', default=False)
-    parser.add_argument('--cgi-file', help='Set file cgi',default='wordlist/cgi.txt', metavar='<cgi.txt>', required=False)
-    parser.add_argument('--timeout', help='Set timeout conection',default=4, metavar='<5>', required=False)
+    parser.add_argument('--thread','-t', help='Eg. 20',metavar='<20>', default=CONFIG_THREAD, required=False)
+    parser.add_argument('--check', help='Check for shellshock vulnerability',action='store_true', default=False)
+    parser.add_argument('--ssl', help='Enable request with SSL ',action='store_true', default=False)
+    parser.add_argument('--cgi-file', help='Defines a CGI file to be used ',default=CONFIG_PATH_WORDLIST+'cgi.txt', metavar='<cgi.txt>', required=False)
+    parser.add_argument('--timeout', help='Set connection timeout',default=5, metavar='<5>', required=False)
     parser.add_argument('--all', help='Teste all payloads',action='store_true', default=False)
-    parser.add_argument('--debug', help='Set debugs',action='store_true', default=False)
+    parser.add_argument('--debug','-d', help='Enable debug mode ',action='store_true', default=False)
 
     arg_menu = parser.parse_args()
 
     if not (arg_menu.file or arg_menu.range):
         exit(parser.print_help())
+
+    if  arg_menu.debug:
+        OBJ_Debug.debug()
 
     FILE_TARGET_STR = arg_menu.file
     FILE_NAME_CGI = arg_menu.cgi_file

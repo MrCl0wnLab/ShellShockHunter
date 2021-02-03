@@ -1,6 +1,6 @@
 <p align="center">
 <a href="https://github.com/MrCl0wnLab/ShellShockHunter/">
-  <img src="assets/prints/banner.png" width="450" />
+  <img src="assets/prints/banner.png" width="700" alt="Banner ShellShockHunter v1.0" />
 </a>
 </p>
 <h1 align="center">
@@ -15,9 +15,9 @@
   
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/MrCl0wnLab/ShellShockHunter">
 
-<img alt="Python" src="https://img.shields.io/badge/python-3.8-yellow.svg">
-<img alt="Python" src="https://img.shields.io/badge/Supported_OS-Linux-orange.svg">
-<img alt="Python" src="https://img.shields.io/badge/Supported_OS-Mac-orange.svg">
+<img alt="Python 3.8" src="https://img.shields.io/badge/python-3.8-yellow.svg">
+<img alt="Supported_OS Linux orange" src="https://img.shields.io/badge/Supported_OS-Linux-orange.svg">
+<img alt="Supported OS Mac" src="https://img.shields.io/badge/Supported_OS-Mac-orange.svg">
 </p>
 
 ```
@@ -54,26 +54,47 @@ pip install ipinfo
 ```
 python main.py --help
 
-usage: tool [-h] [--file <ips.txt>] [--range <ip-start>,<ip-end>] [--cmd-cgi <command shell>] [--exec-vuln <command shell>] [--thread <10>] [--check] [--ssl] [--cgi-file <cgi.txt>] [--timeout <5>] [--all] [--debug]
+                        
+                                          ,/
+                                        ,'/
+                                      ,' /
+                                    ,'  /_____,
+                                  .'____    ,'    
+                                        /  ,'
+                                      / ,'
+                                      /,'
+                                    /'
+             ____  _     _____ _     _     ____  _      ___       _    
+            / ___|| |__ |___ /| |   | |   / ___|| |__  / _ \  ___| | __
+            \___ \| '_ \  |_ \| |   | |   \___ \| '_ \| | | |/ __| |/ /
+             ___) | | | |___) | |___| |___ ___) | | | | |_| | (__|   < 
+            |____/|_| |_|____/|_____|_____|____/|_| |_|\___/ \___|_|\_\
+                     __   _   _             _              __                  
+                    | _| | | | |_   _ _ __ | |_ ___ _ __  |_ |                 
+                    | |  | |_| | | | | '_ \| __/ _ \ '__|  | |                 
+                    | |  |  _  | |_| | | | | ||  __/ |     | |                 
+                    | |  |_| |_|\__,_|_| |_|\__\___|_|     | |                 
+                    |__|                                  |__| v1.0                
+                      By: MrCl0wn / https://blog.mrcl0wn.com                                                                          
+         
+usage: tool [-h] [--file <ips.txt>] [--range <ip-start>,<ip-end>] 
+[--cmd-cgi <command shell>] [--exec-vuln <command shell>] [--thread <20>] 
+[--check] [--ssl] [--cgi-file <cgi.txt>] [--timeout <5>] [--all] [--debug]
 
 optional arguments:
-  -h, --help        show this help message and exit
-  --file <ips.txt>  File targets
-  --range <ip-start>,<ip-end>
-                    Range IP Ex: 192.168.15.1,192.168.15.100
-  --cmd-cgi <command shell>
-                    Command: uname -a
-  --exec-vuln <command shell>
-                    Executing commands on vulnerable targets
-  --thread <10>, -t <10>
-                    Eg. 20
-  --check           Checker vuln
-  --ssl             Set protocol https
-  --cgi-file <cgi.txt>
-                    Set file cgi
-  --timeout <5>     Set timeout conection
-  --all             Teste all payloads
-  --debug           Set debugs
+  -h, --help                   show this help message and exit
+  --file <ips.txt>             Input your target host lists
+  --range <ip-start>,<ip-end>  Set range IP Eg.: 192.168.15.1,192.168.15.100
+  --cmd-cgi <command shell>    Define shell command that will be executed in the payload
+  --exec-vuln <command shell>  Executing commands on vulnerable targets
+  --thread <20>, -t <20>       Eg. 20
+  --check                      Check for shellshock vulnerability
+  --ssl                        Enable request with SSL
+  --cgi-file <cgi.txt>         Defines a CGI file to be used
+  --timeout <5>                Set connection timeout
+  --all                        Teste all payloads
+  --debug, -d                  Enable debug mode
+
 ```
 
 ### Command e.g:
@@ -91,15 +112,19 @@ python main.py --file targets.txt --cmd 'id;uname -a' --thread 10 --ssl --cgi-fi
 python main.py --range '194.206.187.X,194.206.187.XXX' --check --thread 40 --ssl --cgi-file 'wordlist/cgi2.txt' --exec-vuln 'curl -v -k -i "_TARGET_"'
 
 python main.py --range '194.206.187.X,194.206.187.XXX' --check --thread 40 --ssl --cgi-file 'wordlist/cgi2.txt' --exec-vuln './exploit -t "_TARGET_"'
+
+python main.py --range '194.206.187.X,194.206.187.XXX' --check --thread 40 --ssl --cgi-file 'wordlist/cgi2.txt' --exec-vuln './exploit -t "_TARGET_"' --debug
 ```
 ### Prints:
 #### START
 ![Logo](assets/prints/print01.png)
 #### PROCESS
 ![Logo](assets/prints/print02.png)
-#### EXPECIAL COMMAND ( --exec-vuln 'echo ```"_TARGET_"```' )
+#### SPECIAL COMMAND ( --exec-vuln 'echo ```"_TARGET_"```' )
 ![Logo](assets/prints/print03.png)
-
+#### COMMAND ( --debug )
+![Logo](assets/prints/print04.png)
+--debug
 ### Source file ( Exploits )
 >pwd: assets/exploits.json
 ```json
@@ -133,7 +158,7 @@ python main.py --range '194.206.187.X,194.206.187.XXX' --check --thread 40 --ssl
 ```json
 {
     "config": {
-        "threads": 10,
+        "threads": 20,
         "path": {
             "path_output": "output/",
             "path_wordlist": "wordlist/",
@@ -161,13 +186,16 @@ python main.py --range '194.206.187.X,194.206.187.XXX' --check --thread 40 --ssl
 │   ├── exploits.json
 │   └── prints
 │       ├── banner.png
+│       ├── print00.png
 │       ├── print01.png
 │       ├── print02.png
 │       └── print03.png
+├── LICENSE
 ├── main.py
 ├── modules
 │   ├── banner_shock.py
 │   ├── color_shock.py
+│   ├── debug_shock.py
 │   ├── file_shock.py
 │   ├── __init__.py
 │   ├── request_shock.py
@@ -210,7 +238,7 @@ I started this project to study a little more python and interact more with APIS
 * [x] Source file for exploits
 * [x] Color in process
 * [x] Shell Exec on vulnerable targets
-* [ ] Process debug
+* [x] Process debug
 * [ ] Integration with ipinfo api
 * [ ] Integration with ipinfo api
 * [ ] Integration with telegram api
