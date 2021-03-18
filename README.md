@@ -239,9 +239,3 @@ I started this project to study a little more python and interact more with APIS
 * [x] Color in process
 * [x] Shell Exec on vulnerable targets
 * [x] Process debug
-* [ ] Integration with ipinfo api
-* [ ] Integration with ipinfo api
-* [ ] Integration with telegram api
-* [ ] Backdoor creation
-* [ ] Visual filter
-* [ ] Header manipulation
